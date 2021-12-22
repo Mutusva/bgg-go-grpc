@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+// import "google/api/annotations.proto";  Used to generate an http gateway
+
+package bgg;
+
+// generate: protoc messages/bgg.proto --go_out=plugins=grpc:.
+
+option go_package = "messages;bggpb";
+
+service BoardgameService {
+    rpc FindBoardgamesByName(FindBoardgamesByNameRequest) returns (stream FindBoardgamesByNameResponse){
+        /*
+        option(google.api.http) = {
+            get: "api/v1/search"
+        };
+        */
+    }
+}
+
+message BoardGame {
+    int32 gid = 1;
+    string name = 2;
+    int32 ranking = 3;
+    string url = 4;
+}
+
+message FindBoardgamesByNameRequest {
+    string query = 1;
+    uint32 limit = 2;
+    uint32 offset = 3;
+}
+
+message FindBoardgamesByNameResponse {
+    uint32 count = 1;
+    BoardGame game = 2;
+}
+
+
